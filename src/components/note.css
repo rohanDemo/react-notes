@@ -1,0 +1,59 @@
+.note-card-container{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 150px;
+  width: 150px;
+  background: grey;
+  padding: 30px;
+  padding-bottom: 10px;
+  margin: 20px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  border-radius: 4px;
+}
+
+.list-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    height: auto;
+    padding: 20px;
+  }
+  .app-header{
+  background-color: #282c34;
+  display: flex;
+  justify-content: center;
+  font-size: small;
+  color: white;
+  }
+  .app-footer{
+    text-align : center;
+  }
+
+ .note-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .note-title {
+    padding: 10px;
+  }
+
+  .note-title-input {
+    border: none;
+    font-size: 1em;
+    text-align: center;
+    width: 600px;
+    border : 1px solid;
+    padding-left: 10px;
+    padding-right: 10px;
+  }

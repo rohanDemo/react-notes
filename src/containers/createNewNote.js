@@ -6,9 +6,24 @@ class CreateNewNote extends Component {
 
     constructor(props) {
         super(props)
-       
+        if(this.props.location.state){
+            this.state ={
+                noteValue : this.props.location.state
+            }
+        }else{
+            this.state ={
+                noteValue : {
+                    title : '',
+                    content : ''
+                }
+            }
+        }
+        
+       console.log(this.state.noteValue.id)
         this.onSubmit = this.onSubmit.bind(this);
     }
+   
+ 
     onSubmit (e){
         e.preventDefault();
         const formData = {
@@ -16,13 +31,26 @@ class CreateNewNote extends Component {
             content: this.content.value
           };
           console.log(formData)
-          axios.post(url('notes'), formData)
-          .then((res) => { 
-                this.props.history.push('/')
-          })
-          .catch((error)=>{
-            alert('errrrrrrrror')
-          })
+          if(this.props.location.state){
+
+            axios.patch(url(`notes/${this.state.noteValue.id}`), formData)
+            .then((res) => { 
+                  this.props.history.push('/')
+            })
+            .catch((error)=>{
+              alert('errrrrrrrror')
+            })
+          }else{
+
+            axios.post(url('notes'), formData)
+            .then((res) => { 
+                  this.props.history.push('/')
+            })
+            .catch((error)=>{
+              alert('errrrrrrrror')
+            })
+          }
+        
           
     }
 
@@ -40,6 +68,7 @@ class CreateNewNote extends Component {
                             className="note-title-input"
                             type="text"
                             placeholder="Enter title "
+                            defaultValue = {this.state.noteValue.title}
                             ref={(input) => this.title = input}
                         />
                     </div>
@@ -48,10 +77,11 @@ class CreateNewNote extends Component {
                             className="note-title-input"
                             placeholder="Enter your content"
                             rows={10}
+                            defaultValue = {this.state.noteValue.content}
                             ref={(input) => this.content = input}
                         />
                     </div>
-                    <input className="note-button" type="submit" value="Submit" />
+                    <input className="note-button" type="submit" value="Save" />
                 </form>
             </div>
         );

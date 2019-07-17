@@ -11,6 +11,7 @@ export default class DispalyNotes extends Component {
         super();
         this.state = {
             notes: [],
+            editNote : [],
             note: {},
             error: '',
             templist : [{
@@ -46,10 +47,13 @@ export default class DispalyNotes extends Component {
     }
 
     getNote = (id) => {
-        // axios.get(url(`notes/${id}`))
-        //     .then((res) => this.setState({ note: res.data, showNote: true }))
-        //     .catch((err) => console.log(err.response.data));
-        alert('thamb jara ajun nai')
+        axios.get(url(`notes/${id}`))
+            .then((res) => {
+                this.setState({ editNote: res.data })
+                this.props.history.push({pathname : '/newNote', state : this.state.editNote})
+                // console.log(this.state.editNote)
+            })
+            .catch((err) => console.log(err.response.data));
     }
 
     deleteNote = (id) => {

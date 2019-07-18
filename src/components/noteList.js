@@ -4,9 +4,6 @@ import './note.css'
 
 
 class NoteList extends Component {
-  componentWillMount() {
-    this.props.getNotes();
-  }
 
   render() {
     const { notes, getNote, deleteNote } = this.props;

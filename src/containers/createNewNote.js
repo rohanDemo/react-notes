@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import url from '../utils/service'
-import axios from 'axios'
+
 
 class CreateNewNote extends Component {
 
@@ -23,35 +22,35 @@ class CreateNewNote extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    onSubmit (e){
-        e.preventDefault();
-        const formData = {
-            title: this.title.value,
-            content: this.content.value
-          };
-          console.log(formData)
-          if(this.props.location.state){
+    // onSubmit (e){
+    //     e.preventDefault();
+    //     const formData = {
+    //         title: this.title.value,
+    //         content: this.content.value
+    //       };
+    //       console.log(formData)
+    //       if(this.props.location.state){
 
-            axios.patch(url(`notes/${this.state.noteValue.id}`), formData)
-            .then((res) => {
-                  this.props.history.push('/')
-            })
-            .catch((error)=>{
-              alert('errrrrrrrror')
-            })
-          }else{
+    //         axios.patch(url(`notes/${this.state.noteValue.id}`), formData)
+    //         .then((res) => {
+    //               this.props.history.push('/')
+    //         })
+    //         .catch((error)=>{
+    //           alert('errrrrrrrror')
+    //         })
+    //       }else{
 
-            axios.post(url('notes'), formData)
-            .then((res) => {
-                  this.props.history.push('/')
-            })
-            .catch((error)=>{
-              alert('errrrrrrrror')
-            })
-          }
+    //         axios.post(url('notes'), formData)
+    //         .then((res) => {
+    //               this.props.history.push('/')
+    //         })
+    //         .catch((error)=>{
+    //           alert('errrrrrrrror')
+    //         })
+    //       }
 
 
-    }
+    // }
 
     render() {
 

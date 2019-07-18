@@ -18,12 +18,11 @@ class CreateNewNote extends Component {
                 }
             }
         }
-        
+
        console.log(this.state.noteValue.id)
         this.onSubmit = this.onSubmit.bind(this);
     }
-   
- 
+
     onSubmit (e){
         e.preventDefault();
         const formData = {
@@ -34,7 +33,7 @@ class CreateNewNote extends Component {
           if(this.props.location.state){
 
             axios.patch(url(`notes/${this.state.noteValue.id}`), formData)
-            .then((res) => { 
+            .then((res) => {
                   this.props.history.push('/')
             })
             .catch((error)=>{
@@ -43,15 +42,15 @@ class CreateNewNote extends Component {
           }else{
 
             axios.post(url('notes'), formData)
-            .then((res) => { 
+            .then((res) => {
                   this.props.history.push('/')
             })
             .catch((error)=>{
               alert('errrrrrrrror')
             })
           }
-        
-          
+
+
     }
 
     render() {

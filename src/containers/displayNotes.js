@@ -13,23 +13,6 @@ export default class DispalyNotes extends Component {
             notes: [],
             editNote : [],
             note: {},
-            error: '',
-            templist : [{
-                "id": 1375,
-                "title": "temp data",
-                "content": "al habibi",
-                "created_at": "2019-07-16T10:00:10.742Z",
-                "updated_at": "2019-07-16T10:00:10.742Z",
-                "tags": []
-            }, {
-                "id": 1376,
-                "title": "temp data 2 ",
-                "content": "jhiu di diu d",
-                "created_at": "2019-07-16T10:58:39.510Z",
-                "updated_at": "2019-07-16T10:58:39.510Z",
-                "tags": []
-            }]
-
         };
     }
 
@@ -51,7 +34,6 @@ export default class DispalyNotes extends Component {
             .then((res) => {
                 this.setState({ editNote: res.data })
                 this.props.history.push({pathname : '/newNote', state : this.state.editNote})
-                // console.log(this.state.editNote)
             })
             .catch((err) => console.log(err.response.data));
     }
@@ -78,7 +60,7 @@ export default class DispalyNotes extends Component {
             />
             <NewNoteNav goToNewNote = {this.goToNewNote} name = 'New note'/>
             </div>
-            
+
         )
     }
 }

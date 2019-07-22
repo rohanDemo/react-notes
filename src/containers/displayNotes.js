@@ -6,6 +6,7 @@ import url from '../config'
 import NewNoteNav from '../components/newNoteNav'
 import { connect } from 'react-redux'
 import { fetchAllAcions } from '../redux/Notes'
+import {NOTES_CRUD} from '../config'
 
 class DispalyNotes extends Component {
 
@@ -24,7 +25,7 @@ class DispalyNotes extends Component {
 
     fetchNotes = () => {
         const { fetchAllNotes: FetchNotes } = this.props
-        FetchNotes()
+        FetchNotes(NOTES_CRUD)
     }
 
     static getDerivedStateFromProps(nextProps) {
@@ -68,9 +69,9 @@ class DispalyNotes extends Component {
     //         .then((res) => this.setState({ notes: newNotesState }))
     //         .catch((err) => console.log(err.response.data));
     // }
-    // goToNewNote =()=>{
-    //     this.props.history.push('/newNote')
-    // }
+    goToNewNote =()=>{
+        this.props.history.push('/newNote')
+    }
 
     render() {
         console.log(this.props)

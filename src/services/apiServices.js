@@ -11,12 +11,11 @@ class APIService {
         }
     }
 
-    post = (url, params, headers) => {
+    post = (url, params) => {
         try {
             return Axios({
                 method: 'post',
                 url,
-                headers,
                 data: params
             });
         } catch (err) {
@@ -35,7 +34,7 @@ class APIService {
         }
     }
 
-    put(url, params) {
+    patch(url, params) {
         try {
             return Axios({
                 method: 'put',

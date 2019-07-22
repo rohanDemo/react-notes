@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux'
+import {NOTES_CRUD} from '../config'
+import {fetchAllAcions} from '../redux/Notes'
 
 
 class CreateNewNote extends Component {
@@ -22,35 +25,37 @@ class CreateNewNote extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    // onSubmit (e){
-    //     e.preventDefault();
-    //     const formData = {
-    //         title: this.title.value,
-    //         content: this.content.value
-    //       };
-    //       console.log(formData)
-    //       if(this.props.location.state){
+    onSubmit (e){
+        const { createNoteAction: CreateNote } = this.props
+        e.preventDefault();
+        const formData = {
+            title: this.title.value,
+            content: this.content.value
+          };
+          console.log(formData)
+        //   if(this.props.location.state){
 
-    //         axios.patch(url(`notes/${this.state.noteValue.id}`), formData)
-    //         .then((res) => {
-    //               this.props.history.push('/')
-    //         })
-    //         .catch((error)=>{
-    //           alert('errrrrrrrror')
-    //         })
-    //       }else{
+        //     axios.patch(url(`notes/${this.state.noteValue.id}`), formData)
+        //     .then((res) => {
+        //           this.props.history.push('/')
+        //     })
+        //     .catch((error)=>{
+        //       alert('errrrrrrrror')
+        //     })
+        //   }else{
 
-    //         axios.post(url('notes'), formData)
-    //         .then((res) => {
-    //               this.props.history.push('/')
-    //         })
-    //         .catch((error)=>{
-    //           alert('errrrrrrrror')
-    //         })
-    //       }
+            // axios.post(url('notes'), formData)
+            // .then((res) => {
+            //       this.props.history.push('/')
+            // })
+            // .catch((error)=>{
+            //   alert('errrrrrrrror')
+            // })
+        //   }
 
+        CreateNote(NOTES_CRUD,formData)
 
-    // }
+    }
 
     render() {
 
@@ -86,4 +91,15 @@ class CreateNewNote extends Component {
     }
 }
 
-export default CreateNewNote;
+const mapStateToProps = ({ fetchAllReducers }) => {
+    return {
+        createNoteReducer: fetchAllReducers.createNoteReducer,
+
+    };
+}
+const mapDispatchToProps = {
+    createNoteAction: fetchAllAcions.createNoteAction,
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateNewNote)

@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import DisplayNotes from './containers/displayNotes'
 import CreateNewNote from './containers/createNewNote'
-import history from './utils/history'
+import history from './services/history'
 import { BrowserRouter, Route } from 'react-router-dom'
 
 class App extends Component{
 
-  
+
   render(){
     return (
       <BrowserRouter history = {history}>
@@ -17,6 +17,6 @@ class App extends Component{
   }
 }
 
- 
+
 
 export default App;

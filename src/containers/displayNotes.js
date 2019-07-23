@@ -6,7 +6,8 @@ import url from '../config'
 import NewNoteNav from '../components/newNoteNav'
 import { connect } from 'react-redux'
 import { fetchAllAcions } from '../redux/Notes'
-import {NOTES_CRUD} from '../config'
+import { NOTES_CRUD } from '../config'
+import { DeleteNote } from '../redux/Notes/service'
 
 class DispalyNotes extends Component {
 
@@ -16,6 +17,7 @@ class DispalyNotes extends Component {
             notes: [],
             editNote: [],
             note: {},
+            delete: false
         };
     }
 
@@ -28,31 +30,18 @@ class DispalyNotes extends Component {
         FetchNotes(NOTES_CRUD)
     }
 
-    static getDerivedStateFromProps(nextProps) {
-
-        if(nextProps.fetchAllNotesReducer.data){
-            let notes = nextProps.fetchAllNotesReducer.data;
-            return {notes}
-
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (!prevState.delete) {
+            if (nextProps.fetchAllNotesReducer.data) {
+                let notes = nextProps.fetchAllNotesReducer.data;
+                return { notes }
+            }
         }
+
 
         console.log(nextProps)
         return null;
     }
-
-
-    // getNotes = () => {
-    //     axios.get(url('notes'))
-    //         .then((res) => {
-    //             if(res.data.length === 0){
-    //                 this.setState({ notes: this.state.templist })
-    //             }else{
-    //                 this.setState({ notes: res.data })
-    //             }
-    //        }
-    //         )
-    //         .catch((err) => console.log(err.response.data));
-    // }
 
     // getNote = (id) => {
     //     axios.get(url(`notes/${id}`))
@@ -63,13 +52,15 @@ class DispalyNotes extends Component {
     //         .catch((err) => console.log(err.response.data));
     // }
 
-    // deleteNote = (id) => {
-    //     const newNotesState = this.state.notes.filter((note) => note.id !== id);
-    //     axios.delete(url(`notes/${id}`))
-    //         .then((res) => this.setState({ notes: newNotesState }))
-    //         .catch((err) => console.log(err.response.data));
-    // }
-    goToNewNote =()=>{
+    deleteNote = (id) => {
+        // const { deleteNoteAction: DeleteNote } = this.props
+        let url = NOTES_CRUD + '/' + id
+        DeleteNote(url)
+        const newNotesState = this.state.notes.filter((note) => note.id !== id);
+        this.setState({ notes: newNotesState, delete: true })
+    }
+
+    goToNewNote = () => {
         this.props.history.push('/newNote')
     }
 
@@ -81,8 +72,8 @@ class DispalyNotes extends Component {
                 <NoteList
                     // getNotes={this.getNotes}
                     notes={this.state.notes}
-                // getNote={this.getNote}
-                // deleteNote={this.deleteNote}
+                    // getNote={this.getNote}
+                    deleteNote={this.deleteNote}
                 />
                 <NewNoteNav goToNewNote={this.goToNewNote} name='New note' />
             </div>
@@ -98,6 +89,7 @@ const mapStateToProps = ({ fetchAllReducers }) => {
 }
 const mapDispatchToProps = {
     fetchAllNotes: fetchAllAcions.fetchAllNotes,
+    deleteNoteAction: fetchAllAcions.deleteNoteAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DispalyNotes)

@@ -37,7 +37,7 @@ class APIService {
     patch(url, params) {
         try {
             return Axios({
-                method: 'put',
+                method: 'patch',
                 url,
                 data: params
             });

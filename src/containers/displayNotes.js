@@ -9,6 +9,7 @@ import { fetchAllAcions } from '../redux/Notes'
 import { NOTES_CRUD } from '../config'
 import { DeleteNote } from '../redux/Notes/service'
 
+
 class DispalyNotes extends Component {
 
     constructor() {
@@ -17,24 +18,25 @@ class DispalyNotes extends Component {
             notes: [],
             editNote: [],
             note: {},
-            delete: false
+            delete: false,
+            editNoteFlag: false
         };
     }
 
     componentDidMount() {
-        this.fetchNotes()
+        this.fetchNotes(null)
     }
 
-    fetchNotes = () => {
+    fetchNotes = (id) => {
         const { fetchAllNotes: FetchNotes } = this.props
-        FetchNotes(NOTES_CRUD)
+             FetchNotes(NOTES_CRUD)
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (!prevState.delete) {
             if (nextProps.fetchAllNotesReducer.data) {
-                let notes = nextProps.fetchAllNotesReducer.data;
-                return { notes }
+                    let notes = nextProps.fetchAllNotesReducer.data;
+                    return { notes }
             }
         }
 
@@ -43,14 +45,9 @@ class DispalyNotes extends Component {
         return null;
     }
 
-    // getNote = (id) => {
-    //     axios.get(url(`notes/${id}`))
-    //         .then((res) => {
-    //             this.setState({ editNote: res.data })
-    //             this.props.history.push({pathname : '/newNote', state : this.state.editNote})
-    //         })
-    //         .catch((err) => console.log(err.response.data));
-    // }
+    getNote = (id) => {
+        this.props.history.push({pathname : '/newNote', state : id})
+    }
 
     deleteNote = (id) => {
         // const { deleteNoteAction: DeleteNote } = this.props
@@ -66,13 +63,13 @@ class DispalyNotes extends Component {
 
     render() {
         console.log(this.props)
+        console.log(this.state.editNote)
         return (
             <div>
                 <Header title='Ronzzi notes' />
                 <NoteList
-                    // getNotes={this.getNotes}
                     notes={this.state.notes}
-                    // getNote={this.getNote}
+                    getNote={this.getNote}
                     deleteNote={this.deleteNote}
                 />
                 <NewNoteNav goToNewNote={this.goToNewNote} name='New note' />
@@ -84,7 +81,6 @@ class DispalyNotes extends Component {
 const mapStateToProps = ({ fetchAllReducers }) => {
     return {
         fetchAllNotesReducer: fetchAllReducers.fetchAllNotesReducer,
-
     };
 }
 const mapDispatchToProps = {

@@ -23,6 +23,15 @@ export const DeleteNote = async(NOTES_CRUD)=> {
     return res.data;
 }
 
+export const SubmitEditNote = async(params)=> {
+    let formData = {
+        title: params.title ,
+        content: params.content,
+    }
+    const res = await APIService.patch(params.url, formData)
+    return res.data;
+}
+
 export const InitialState = () =>{
 
     return null

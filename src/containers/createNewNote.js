@@ -12,6 +12,7 @@ class CreateNewNote extends Component {
             status: null
         }
         if (this.props.location.state) {
+            console.log(this.props.location.state)
             this.state = {
                 noteValue: this.props.location.state
             }
@@ -24,46 +25,67 @@ class CreateNewNote extends Component {
             }
         }
 
-        console.log(this.state.noteValue.id)
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    static getDerivedStateFromProps(nextProps, prevProps) {
-        // return{status: nextProps.createNoteReducer.data}
-        // // if (nextProps.createNoteReducer.data === 201) {
-        //   return { status: nextProps.InitialStateReducer.data}
-        // } else {
-        //     return{status: nextProps.createNoteReducer.data}
-        // }
+    componentDidMount() {
+        if (this.props.location.state){
+            this.getNote()
+        }
     }
 
-    navigateToList = () => {
-        // let { InitialStateAction: InitialState } = this.props
+    getNote = () => {
+        const { fetchAllNotes: FetchNotes } = this.props
+        const id = this.props.location.state
+        FetchNotes(NOTES_CRUD + '/' + id)
+    }
 
-        // if (this.state.status === 201) {
-            // InitialState();
-            // this.props.history.push('/')
-        // }
-
+    static getDerivedStateFromProps(nextProps) {
+        if (nextProps.fetchAllNotesReducer.data) {
+            return { noteValue : {
+                title: nextProps.fetchAllNotesReducer.data.title,
+                content: nextProps.fetchAllNotesReducer.data.content
+            }
+        }
+        }
     }
 
     onSubmit = (e) => {
-        let { createNoteAction: CreateNote } = this.props
         e.preventDefault();
-        let formData = {
-            title: this.title.value,
-            content: this.content.value,
-            url: NOTES_CRUD
-        };
-        console.log(formData)
-        CreateNote(formData)
-        setTimeout(
-            function() {
-                this.props.history.push('/')
+        if(this.title.value !== '' && this.content.value !== ''){
+            let {fetchAllNotes : FetchNotes, createNoteAction: CreateNote, editNoteAction : SubmitEditNote } = this.props
+
+            if(this.props.location.state){
+                const id = this.props.location.state
+                let formData = {
+                    title: this.title.value,
+                    content: this.content.value,
+                    url: NOTES_CRUD+'/'+id
+                };
+                SubmitEditNote(formData)
+                FetchNotes(NOTES_CRUD)
+
+            }else{
+                let formData = {
+                    title: this.title.value,
+                    content: this.content.value,
+                    url: NOTES_CRUD
+                };
+                console.log(formData)
+                CreateNote(formData)
             }
-            .bind(this),
-            1000
-        );
+
+            setTimeout(
+                function () {
+                    this.props.history.push('/')
+                }
+                    .bind(this),
+                1000
+            );
+        }else{
+            alert('enter title and content!!1')
+        }
+
     }
 
     render() {
@@ -84,7 +106,8 @@ class CreateNewNote extends Component {
                         />
                     </div>
                     <div className="note-textarea-container">
-                        <textarea
+                        <input
+                        type="text"
                             className="note-title-input"
                             placeholder="Enter your content"
                             rows={10}
@@ -101,14 +124,15 @@ class CreateNewNote extends Component {
 }
 const mapStateToProps = ({ fetchAllReducers }) => {
     return {
-        createNoteReducer: fetchAllReducers.createNoteReducer,
-        InitialStateReducer: fetchAllReducers.InitialStateReducer
+        fetchAllNotesReducer: fetchAllReducers.fetchAllNotesReducer
     };
 }
 
 const mapDispatchToProps = {
     createNoteAction: fetchAllAcions.createNoteAction,
-    InitialStateAction: fetchAllAcions.InitialStateAction
+    InitialStateAction: fetchAllAcions.InitialStateAction,
+    fetchAllNotes: fetchAllAcions.fetchAllNotes,
+    editNoteAction : fetchAllAcions.editNoteAction
 };
 
 

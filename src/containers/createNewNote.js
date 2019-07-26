@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { NOTES_CRUD } from '../config'
 import { fetchAllAcions } from '../redux/Notes'
+import Header from '../components/header'
+import Button from '@material-ui/core/Button';
+import SaveIcon from '@material-ui/icons/Save';
+import CancelIcon  from '@material-ui/icons/Cancel';
 
 
 class CreateNewNote extends Component {
@@ -29,10 +33,16 @@ class CreateNewNote extends Component {
     }
 
     componentDidMount() {
-        if (this.props.location.state){
+        if (this.props.location.state) {
             this.getNote()
         }
     }
+
+    // componentDidUpdate(){
+    //     window.onpopstate  = (e) => {
+    //         alert('mage gela')
+    //     }
+    // }
 
     getNote = () => {
         const { fetchAllNotes: FetchNotes } = this.props
@@ -42,30 +52,37 @@ class CreateNewNote extends Component {
 
     static getDerivedStateFromProps(nextProps) {
         if (nextProps.fetchAllNotesReducer.data) {
-            return { noteValue : {
-                title: nextProps.fetchAllNotesReducer.data.title,
-                content: nextProps.fetchAllNotesReducer.data.content
+            return {
+                noteValue: {
+                    title: nextProps.fetchAllNotesReducer.data.title,
+                    content: nextProps.fetchAllNotesReducer.data.content
+                }
             }
         }
-        }
+    }
+
+    cancelNewNote = () => {
+        let { fetchAllNotes: FetchNotes } = this.props
+        FetchNotes(NOTES_CRUD)
+        this.props.history.push('/')
     }
 
     onSubmit = (e) => {
         e.preventDefault();
-        if(this.title.value !== '' && this.content.value !== ''){
-            let {fetchAllNotes : FetchNotes, createNoteAction: CreateNote, editNoteAction : SubmitEditNote } = this.props
+        if (this.title.value !== '' && this.content.value !== '') {
+            let { fetchAllNotes: FetchNotes, createNoteAction: CreateNote, editNoteAction: SubmitEditNote } = this.props
 
-            if(this.props.location.state){
+            if (this.props.location.state) {
                 const id = this.props.location.state
                 let formData = {
                     title: this.title.value,
                     content: this.content.value,
-                    url: NOTES_CRUD+'/'+id
+                    url: NOTES_CRUD + '/' + id
                 };
                 SubmitEditNote(formData)
                 FetchNotes(NOTES_CRUD)
 
-            }else{
+            } else {
                 let formData = {
                     title: this.title.value,
                     content: this.content.value,
@@ -82,7 +99,7 @@ class CreateNewNote extends Component {
                     .bind(this),
                 1000
             );
-        }else{
+        } else {
             alert('enter title and content!!1')
         }
 
@@ -90,8 +107,10 @@ class CreateNewNote extends Component {
 
     render() {
         return (
+
             <div className="note-container">
-                <h3>create note</h3>
+                <Header title='Ronzzi notes' />
+                <h3>New Note</h3>
                 <form
                     className="note-form"
                     onSubmit={this.onSubmit}
@@ -107,7 +126,7 @@ class CreateNewNote extends Component {
                     </div>
                     <div className="note-textarea-container">
                         <input
-                        type="text"
+                            type="text"
                             className="note-title-input"
                             placeholder="Enter your content"
                             rows={10}
@@ -115,7 +134,16 @@ class CreateNewNote extends Component {
                             ref={(input) => this.content = input}
                         />
                     </div>
-                    <input className="note-button" type="submit" value="Save" />
+                    <div className = 'cancel-submit-button-container'>
+                    <Button className = 'create-note-button' onClick={this.cancelNewNote} >
+                        <CancelIcon />
+                        Cancel
+                    </Button>
+                    <Button className = 'create-note-button' type="submit">
+                        <SaveIcon />
+                        Save
+                    </Button>
+                    </div>
                 </form>
             </div>
 
@@ -132,7 +160,7 @@ const mapDispatchToProps = {
     createNoteAction: fetchAllAcions.createNoteAction,
     InitialStateAction: fetchAllAcions.InitialStateAction,
     fetchAllNotes: fetchAllAcions.fetchAllNotes,
-    editNoteAction : fetchAllAcions.editNoteAction
+    editNoteAction: fetchAllAcions.editNoteAction
 };
 
 

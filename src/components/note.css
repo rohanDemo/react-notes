@@ -2,15 +2,16 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  height: 150px;
-  width: 150px;
-  background: grey;
-  padding: 30px;
+  /* height: 150px; */
+  background: whitesmoke;
+  padding: 20px;
   padding-bottom: 10px;
   margin: 20px;
   overflow-x: hidden;
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
   border-radius: 4px;
+  box-shadow: 1px 1px;
+  max-width: 30%;
 }
 
 .list-container {
@@ -18,8 +19,7 @@
     display: flex;
     -webkit-align-items: flex-start;
     align-items: flex-start;
-    -webkit-justify-content: center;
-    justify-content: center;
+    /* justify-content: center; */
     -webkit-flex-direction: row;
     flex-direction: row;
     -webkit-flex-wrap: wrap;
@@ -35,7 +35,8 @@
   color: white;
   }
   .app-footer{
-    text-align : center;
+    text-align : right;
+    margin-right: 150px;
   }
 
  .note-container {
@@ -44,16 +45,45 @@
     text-align: center;
   }
 
-  .note-title {
-    padding: 10px;
-  }
-
   .note-title-input {
     border: none;
     font-size: 1em;
     text-align: center;
     width: 600px;
+    height: 50px;
+    margin: 10px;
     border : 1px solid;
     padding-left: 10px;
     padding-right: 10px;
+  }
+  .add-note-button{
+    background-color: #931010 !important;
+  }
+
+  .addnote-button-icon{
+    color: #ffff;
+  }
+
+  .note-title{
+     text-transform: uppercase;
+     margin :0
+  }
+
+  .note-card-button-container{
+    text-align: center;
+  }
+  .delete-icon{
+    height: 12px;
+  }
+  .delete-icon-container{
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  .cancel-submit-button-container{
+  margin: 20px;
+  }
+  .create-note-button {
+    margin : 10px !important;
+    border: 1px solid black !important;
   }
